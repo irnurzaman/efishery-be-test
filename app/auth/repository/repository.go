@@ -22,7 +22,7 @@ func (r *Repository) CreateUser(user entities.User) (err error) {
 }
 
 func (r *Repository) GetUser(phone string) (user entities.User, err error) {
-	SQL := "SELECT phone, name, role FROM users WHERE phone = $1;"
+	SQL := "SELECT * FROM users WHERE phone = $1;"
 	err = r.db.Get(&user, SQL, phone)
 	if err != nil {
 		r.logger.Error("repo.GetUser", err)
