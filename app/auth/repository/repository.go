@@ -15,6 +15,7 @@ type Repository struct {
 func (r *Repository) CreateUser(user entities.User) (err error) {
 	SQL := "INSERT INTO users VALUES (:phone, :name, :role, :password);"
 	_, err = r.db.NamedExec(SQL, user)
+	// Return error if phone number already exist
 	if err != nil {
 		r.logger.Error("repo.CreateUser", err)
 	}
@@ -24,6 +25,7 @@ func (r *Repository) CreateUser(user entities.User) (err error) {
 func (r *Repository) GetUser(phone string) (user entities.User, err error) {
 	SQL := "SELECT * FROM users WHERE phone = $1;"
 	err = r.db.Get(&user, SQL, phone)
+	// Return error if phone number unrecognized
 	if err != nil {
 		r.logger.Error("repo.GetUser", err)
 	}

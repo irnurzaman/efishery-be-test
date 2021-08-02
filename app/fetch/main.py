@@ -32,28 +32,32 @@ app.state.service = service
 @app.on_event('startup')
 async def startup():
     service.client = ClientSession()
-    service.query_task = asyncio.create_task(service.periodic_rate_query())
+    service.query_task = asyncio.create_task(service.periodic_rate_query())  # Start background task for querying currency rate periodically
 
 @app.middleware('http')
 async def jwt_middleware(req: Request, call_next) -> Response:
+    # Exclude API documentation path from JWT verification
     if req.url.path in ('/redoc', '/docs', '/openapi.json'):
         response = await call_next(req)
         return response
+
+    # Verify JWT from Authorization header
     if 'authorization' not in req.headers:
         return JSONResponse(status_code=401, content={'remark': 'Missing Authorization header'})
     apikey = req.headers['authorization']
     try:
         claims = jwt.decode(apikey, SECRET, ['HS256'])
         req.state.claims = claims
-    except InvalidSignatureError:
+    except InvalidSignatureError:  # Invalid signature JWT
         return JSONResponse(status_code=401, content={'remark': 'Invalid authorization token'})
-    if req.url.path == '/aggregate' and claims['role'] != 'admin':
+    if req.url.path == '/aggregate' and claims['role'] != 'admin':  # Invalid role for accessing resources
         return JSONResponse(status_code=401, content={'remark': 'Only admin role can access aggregate'})
     response = await call_next(req)
     return response
 
 @app.get('/fetch', tags=['Fetch'], response_model=models.RespComodity, summary='Fetch comodity data from resources')
 async def fetch(Authorization: APIKey=Security(api_key_header)):
+    # Check if there is valid cache in memory. Fetch to API if not exist
     if time.time() - service.last_request < QUERY_INTERVAL:
         result = service.comodity_cache
     else:
@@ -63,6 +67,7 @@ async def fetch(Authorization: APIKey=Security(api_key_header)):
 
 @app.get('/aggregate', tags=['Fetch'], response_model=models.RespAggregate, summary='Aggregate comodity data from resources')
 async def aggregate(Authorization: APIKey=Security(api_key_header)):
+    # Check if there is valid cache in memory. Fetch to API if not exist
     if service.aggregate_cache is not None:
         result = service.aggregate_cache
     else:

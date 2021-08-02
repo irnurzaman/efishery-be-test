@@ -19,6 +19,7 @@ class Service():
         self.query_task: Union[asyncio.Task, None] = None
 
     def filtering(self, data: List[Dict]) -> List[Dict]:
+        # Filter data if there is null values
         new_resources = []
         for item in data:
             if None in item.values():
@@ -31,6 +32,7 @@ class Service():
         return new_resources
 
     def preprocessing(self, data: List[Dict]):
+        # Remove unused data
         for item in data:
             item.pop('uuid', None)
             item.pop('komoditas', None)
@@ -62,6 +64,8 @@ class Service():
             body = await resp.json()
         post_filter = self.filtering(body)
         self.preprocessing(post_filter)
+        
+        # Process data using pandas DataFrame. Group by tgl_parsed weekly starting monday and area_provinsi. Aggregate size and price column
         df = pd.DataFrame(post_filter)
         df['tgl_parsed'] = pd.to_datetime(df['tgl_parsed'])
         df = df.groupby([pd.Grouper(key='tgl_parsed', freq='W-MON'), 'area_provinsi']).agg(
@@ -74,6 +78,8 @@ class Service():
             med_price=('price', 'median'),
             mean_price=('price', 'mean')
         )
+
+        # Transform DataFrame into list of dictionaries
         df_dict = df.to_dict(orient='index')
         df_dict_parsed = []
         for k, v in df_dict.items():

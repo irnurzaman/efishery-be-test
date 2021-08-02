@@ -27,6 +27,7 @@ func (s *Service) RegisterUser(req models.ReqRegisterUser) (pwd string, err erro
 	copier.Copy(&user, req)
 	user.Password = pwd
 	err = s.repo.CreateUser(user)
+	// Duplicate phone number
 	if err != nil {
 		err = fmt.Errorf("Phone number has been registered")
 	}
@@ -70,6 +71,7 @@ func (s *Service) VerifyToken(key string) (claims models.Token, err error) {
 }
 
 func generatePassword() string {
+	// Generate password using the first 4 characters from UUID4
 	return uuid.New().String()[:4]
 }
 
