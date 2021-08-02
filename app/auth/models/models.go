@@ -22,12 +22,12 @@ type RespRegisterUser struct {
 	Password string `json:"password"`
 }
 
-type ReqVerifyUser struct {
+type ReqLoginUser struct {
 	Phone    string `json:"phone"`
 	Password string `json:"password"`
 }
 
-type RespVerifyUser struct {
+type RespLoginUser struct {
 	Token string `json:"token"`
 }
 

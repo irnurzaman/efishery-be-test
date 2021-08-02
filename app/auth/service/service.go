@@ -16,8 +16,8 @@ import (
 )
 
 type Service struct {
-	repo interfaces.Repository
-	auth *security.Authenticator
+	repo   interfaces.Repository
+	auth   *security.Authenticator
 	logger *logging.Logger
 }
 
@@ -30,7 +30,7 @@ func (s *Service) RegisterUser(req models.ReqRegisterUser) (pwd string, err erro
 	return
 }
 
-func (s *Service) VerifyUser(req models.ReqVerifyUser) (token string, err error) {
+func (s *Service) VerifyUser(req models.ReqLoginUser) (token string, err error) {
 	user, err := s.repo.GetUser(req.Phone)
 	if err != nil {
 		err = fmt.Errorf("Invalid authentication for phone %s", req.Phone)
