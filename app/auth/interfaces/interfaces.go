@@ -11,7 +11,7 @@ type Repository interface {
 }
 
 type Service interface {
-	RegisterUser(user models.ReqRegisterUser) (pwd string, err error)
-	VerifyUser(user models.ReqVerifyUser) (token string, err error)
-	VerifyToken(token models.ReqVerifyToken) (claims models.Token, err error)
+	RegisterUser(req models.ReqRegisterUser) (pwd string, err error)
+	VerifyUser(req models.ReqVerifyUser) (token string, err error)
+	VerifyToken(req models.ReqVerifyToken) (claims models.Token, err error)
 }
