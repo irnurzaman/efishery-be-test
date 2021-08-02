@@ -24,6 +24,12 @@ var (
 	cfg models.Configuration
 )
 
+// @title Auth Service API
+// @version 1.0
+// @description This is a simple auth service for generating and verifying JWT.
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
 func main() {
 	_, err := flags.Parse(&cfg)
 	if err != nil {

@@ -60,10 +60,10 @@ func (s *Service) VerifyUser(req models.ReqLoginUser) (token string, err error) 
 	return
 }
 
-func (s *Service) VerifyToken(req models.ReqVerifyToken) (claims models.Token, err error) {
-	err = s.auth.ParseToken(req.Token, &claims)
+func (s *Service) VerifyToken(key string) (claims models.Token, err error) {
+	err = s.auth.ParseToken(key, &claims)
 	if err != nil {
-		s.logger.Error("service.VerifyUser(GenerateToken)", err)
+		s.logger.Error("service.VerifyUser(ParseToken)", err)
 		err = fmt.Errorf("Invalid token verification")
 	}
 	return

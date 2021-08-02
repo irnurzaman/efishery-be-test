@@ -14,8 +14,9 @@ import (
 )
 
 var (
-	BadContentType = map[string]string{"reason": "Content type must be application/json"}
-	BadRequestBody = map[string]string{"reason": "Invalid parse body request to JSON"}
+	BadContentType = map[string]string{"remark": "Content type must be application/json"}
+	BadRequestBody = map[string]string{"remark": "Invalid parse body request to JSON"}
+	MissingAPIKey = map[string]string{"remark": "Missing API key"}
 )
 
 type RESTAPI struct {
@@ -92,17 +93,13 @@ func (r *RESTAPI) login(c echo.Context) (err error) {
 // @Failure 401 {object} models.RespError "{"remark": "Invalid token verification"}"
 // @Router /auth/verify [post]
 func (r *RESTAPI) verify(c echo.Context) (err error) {
-	var request models.ReqVerifyToken
 	var claims models.RespVerifyToken
 	resp := map[string]interface{}{}
-	if c.Request().Header.Get("Content-Type") != "application/json" {
-		return c.JSON(http.StatusBadRequest, BadContentType)
+	apikey := c.Request().Header.Get("Authorization")
+	if apikey == "" {
+		return c.JSON(http.StatusBadRequest, MissingAPIKey)
 	}
-	err = c.Bind(&request)
-	if err != nil {
-		return c.JSON(http.StatusBadRequest, BadRequestBody)
-	}
-	payload, err := r.service.VerifyToken(request)
+	payload, err := r.service.VerifyToken(apikey)
 	if err != nil {
 		resp["remark"] = err.Error()
 		return c.JSON(http.StatusUnauthorized, resp)
