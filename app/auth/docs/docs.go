@@ -31,17 +31,6 @@ var doc = `{
                 ],
                 "summary": "Login user",
                 "operationId": "LoginUser",
-                "parameters": [
-                    {
-                        "description": "all fields are mandatory",
-                        "name": "location",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.ReqLoginUser"
-                        }
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "{\"token\": \"{token}\"}",
@@ -71,17 +60,6 @@ var doc = `{
                 ],
                 "summary": "Register new user",
                 "operationId": "RegisterUser",
-                "parameters": [
-                    {
-                        "description": "all fields are mandatory",
-                        "name": "location",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.ReqRegisterUser"
-                        }
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "{\"password\": \"{password}\"}",
@@ -116,17 +94,6 @@ var doc = `{
                 ],
                 "summary": "Verify and extract JWT",
                 "operationId": "VerifyToken",
-                "parameters": [
-                    {
-                        "description": "all fields are mandatory",
-                        "name": "location",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.ReqVerifyToken"
-                        }
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "{\"claims\": Model}",
@@ -151,39 +118,6 @@ var doc = `{
         }
     },
     "definitions": {
-        "models.ReqLoginUser": {
-            "type": "object",
-            "properties": {
-                "password": {
-                    "type": "string"
-                },
-                "phone": {
-                    "type": "string"
-                }
-            }
-        },
-        "models.ReqRegisterUser": {
-            "type": "object",
-            "properties": {
-                "name": {
-                    "type": "string"
-                },
-                "phone": {
-                    "type": "string"
-                },
-                "role": {
-                    "type": "string"
-                }
-            }
-        },
-        "models.ReqVerifyToken": {
-            "type": "object",
-            "properties": {
-                "token": {
-                    "type": "string"
-                }
-            }
-        },
         "models.RespError": {
             "type": "object",
             "properties": {

@@ -1,25 +1,4 @@
 definitions:
-  models.ReqLoginUser:
-    properties:
-      password:
-        type: string
-      phone:
-        type: string
-    type: object
-  models.ReqRegisterUser:
-    properties:
-      name:
-        type: string
-      phone:
-        type: string
-      role:
-        type: string
-    type: object
-  models.ReqVerifyToken:
-    properties:
-      token:
-        type: string
-    type: object
   models.RespError:
     properties:
       remark:
@@ -55,13 +34,6 @@ paths:
   /auth/login:
     post:
       operationId: LoginUser
-      parameters:
-      - description: all fields are mandatory
-        in: body
-        name: location
-        required: true
-        schema:
-          $ref: '#/definitions/models.ReqLoginUser'
       responses:
         "200":
           description: '{"token": "{token}"}'
@@ -81,13 +53,6 @@ paths:
   /auth/register:
     post:
       operationId: RegisterUser
-      parameters:
-      - description: all fields are mandatory
-        in: body
-        name: location
-        required: true
-        schema:
-          $ref: '#/definitions/models.ReqRegisterUser'
       responses:
         "200":
           description: '{"password": "{password}"}'
@@ -107,13 +72,6 @@ paths:
   /auth/verify:
     post:
       operationId: VerifyToken
-      parameters:
-      - description: all fields are mandatory
-        in: body
-        name: location
-        required: true
-        schema:
-          $ref: '#/definitions/models.ReqVerifyToken'
       responses:
         "200":
           description: '{"claims": Model}'
