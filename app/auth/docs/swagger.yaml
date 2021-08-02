@@ -1,0 +1,140 @@
+definitions:
+  models.ReqLoginUser:
+    properties:
+      password:
+        type: string
+      phone:
+        type: string
+    type: object
+  models.ReqRegisterUser:
+    properties:
+      name:
+        type: string
+      phone:
+        type: string
+      role:
+        type: string
+    type: object
+  models.ReqVerifyToken:
+    properties:
+      token:
+        type: string
+    type: object
+  models.RespError:
+    properties:
+      remark:
+        type: string
+    type: object
+  models.RespLoginUser:
+    properties:
+      token:
+        type: string
+    type: object
+  models.RespRegisterUser:
+    properties:
+      password:
+        type: string
+    type: object
+  models.RespVerifyToken:
+    properties:
+      name:
+        type: string
+      phone:
+        type: string
+      role:
+        type: string
+      timestamp:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: This is a simple auth service for generating and verifying JWT.
+  title: Auth Service API
+  version: "1.0"
+paths:
+  /auth/login:
+    post:
+      operationId: LoginUser
+      parameters:
+      - description: all fields are mandatory
+        in: body
+        name: location
+        required: true
+        schema:
+          $ref: '#/definitions/models.ReqLoginUser'
+      responses:
+        "200":
+          description: '{"token": "{token}"}'
+          schema:
+            $ref: '#/definitions/models.RespLoginUser'
+        "400":
+          description: '{"remark": "Invalid parse body request to JSON"}'
+          schema:
+            $ref: '#/definitions/models.RespError'
+        "401":
+          description: '{"remark": "Invalid authentication for phone {phone}"}'
+          schema:
+            $ref: '#/definitions/models.RespError'
+      summary: Login user
+      tags:
+      - Auth
+  /auth/register:
+    post:
+      operationId: RegisterUser
+      parameters:
+      - description: all fields are mandatory
+        in: body
+        name: location
+        required: true
+        schema:
+          $ref: '#/definitions/models.ReqRegisterUser'
+      responses:
+        "200":
+          description: '{"password": "{password}"}'
+          schema:
+            $ref: '#/definitions/models.RespRegisterUser'
+        "400":
+          description: '{"remark": "Invalid parse body request to JSON"}'
+          schema:
+            $ref: '#/definitions/models.RespError'
+        "422":
+          description: '{"remark": "Phone number has been registered"}'
+          schema:
+            $ref: '#/definitions/models.RespError'
+      summary: Register new user
+      tags:
+      - Auth
+  /auth/verify:
+    post:
+      operationId: VerifyToken
+      parameters:
+      - description: all fields are mandatory
+        in: body
+        name: location
+        required: true
+        schema:
+          $ref: '#/definitions/models.ReqVerifyToken'
+      responses:
+        "200":
+          description: '{"claims": Model}'
+          schema:
+            $ref: '#/definitions/models.RespVerifyToken'
+        "400":
+          description: '{"remark": "Invalid parse body request to JSON"}'
+          schema:
+            $ref: '#/definitions/models.RespError'
+        "401":
+          description: '{"remark": "Invalid token verification"}'
+          schema:
+            $ref: '#/definitions/models.RespError'
+      security:
+      - ApiKeyAuth: []
+      summary: Verify and extract JWT
+      tags:
+      - Auth
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
