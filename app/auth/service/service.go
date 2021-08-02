@@ -69,3 +69,11 @@ func (s *Service) VerifyToken(req models.ReqVerifyToken) (claims models.Token, e
 func generatePassword() string {
 	return uuid.New().String()[:8]
 }
+
+func NewService(repo interfaces.Repository, auth *security.Authenticator, logger *logging.Logger) (*Service) {
+	return &Service{
+		repo: repo,
+		auth: auth,
+		logger: logger,
+	}
+}
