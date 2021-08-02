@@ -25,7 +25,7 @@ type RESTAPI struct {
 func (r *RESTAPI) register(c echo.Context) (err error) {
 	var request models.ReqRegisterUser
 	resp := map[string]interface{}{}
-	if c.Request().Header.Get("Content-Type") == "application/json" {
+	if c.Request().Header.Get("Content-Type") != "application/json" {
 		return c.JSON(http.StatusBadRequest, BadContentType)
 	}
 	err = c.Bind(&request)
@@ -44,7 +44,7 @@ func (r *RESTAPI) register(c echo.Context) (err error) {
 func (r *RESTAPI) login(c echo.Context) (err error) {
 	var request models.ReqLoginUser
 	resp := map[string]interface{}{}
-	if c.Request().Header.Get("Content-Type") == "application/json" {
+	if c.Request().Header.Get("Content-Type") != "application/json" {
 		return c.JSON(http.StatusBadRequest, BadContentType)
 	}
 	err = c.Bind(&request)
@@ -64,7 +64,7 @@ func (r *RESTAPI) verify(c echo.Context) (err error) {
 	var request models.ReqVerifyToken
 	var claims models.RespVerifyToken
 	resp := map[string]interface{}{}
-	if c.Request().Header.Get("Content-Type") == "application/json" {
+	if c.Request().Header.Get("Content-Type") != "application/json" {
 		return c.JSON(http.StatusBadRequest, BadContentType)
 	}
 	err = c.Bind(&request)
