@@ -30,6 +30,7 @@ type RESTAPI struct {
 // @Summary Register new user
 // @Id RegisterUser
 // @Tags Auth
+// @Param request body models.ReqRegisterUser true "all fields are mandatory"
 // @Success 200 {object} models.RespRegisterUser "{"password": "{password}"}"
 // @Failure 400 {object} models.RespError "{"remark": "Content type must be application/json"}"
 // @Failure 400 {object} models.RespError "{"remark": "Invalid parse body request to JSON"}"
@@ -58,6 +59,7 @@ func (r *RESTAPI) register(c echo.Context) (err error) {
 // @Summary Login user
 // @Id LoginUser
 // @Tags Auth
+// @Param request body models.ReqLoginUser true "all fields are mandatory"
 // @Success 200 {object} models.RespLoginUser "{"token": "{token}"}"
 // @Failure 400 {object} models.RespError "{"remark": "Content type must be application/json"}"
 // @Failure 400 {object} models.RespError "{"remark": "Invalid parse body request to JSON"}"
