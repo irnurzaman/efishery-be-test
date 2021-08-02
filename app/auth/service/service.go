@@ -67,7 +67,7 @@ func (s *Service) VerifyToken(req models.ReqVerifyToken) (claims models.Token, e
 }
 
 func generatePassword() string {
-	return uuid.New().String()[:8]
+	return uuid.New().String()[:4]
 }
 
 func NewService(repo interfaces.Repository, auth *security.Authenticator, logger *logging.Logger) (*Service) {
