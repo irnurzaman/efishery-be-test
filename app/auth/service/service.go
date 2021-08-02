@@ -27,6 +27,9 @@ func (s *Service) RegisterUser(req models.ReqRegisterUser) (pwd string, err erro
 	copier.Copy(&user, req)
 	user.Password = pwd
 	err = s.repo.CreateUser(user)
+	if err != nil {
+		err = fmt.Errorf("Phone number has been registered")
+	}
 	return
 }
 

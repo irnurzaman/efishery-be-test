@@ -8,6 +8,7 @@ import (
 
 	"github.com/jinzhu/copier"
 	"github.com/labstack/echo/v4"
+	middleware "github.com/labstack/echo/v4/middleware"
 )
 
 var (
@@ -82,6 +83,9 @@ func (r *RESTAPI) verify(c echo.Context) (err error) {
 }
 
 func (r *RESTAPI) Run() {
+	r.server.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+		Format: "time=${time_rfc3339} method=${method} uri=${uri} status=${status} error=${error} ip=${remote_ip} \n",
+	}))
 	g := r.server.Group("/auth")
 	g.POST("/register", r.register)
 	g.POST("/login", r.login)
