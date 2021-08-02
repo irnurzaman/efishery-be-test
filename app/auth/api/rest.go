@@ -115,7 +115,7 @@ func (r *RESTAPI) Run() {
 	r.server.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
 		Format: "time=${time_rfc3339} method=${method} uri=${uri} status=${status} error=${error} ip=${remote_ip} \n",
 	}))
-	r.server.GET("/swagger/*", echoSwagger.WrapHandler)
+	r.server.GET("/docs/*", echoSwagger.WrapHandler)
 	g := r.server.Group("/auth")
 	g.POST("/register", r.register)
 	g.POST("/login", r.login)
