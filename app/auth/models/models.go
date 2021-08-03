@@ -16,7 +16,7 @@ type Token struct {
 	Phone     string `json:"phone"`
 	Name      string `json:"name"`
 	Role      string `json:"role"`
-	Timestamp string `json:"string"`
+	Timestamp string `json:"timestamp"`
 	jwt.StandardClaims
 }
 
