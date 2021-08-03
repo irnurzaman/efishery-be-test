@@ -1,0 +1,16 @@
+version: '3.9'
+services:
+  auth:
+    build: app/auth/
+    image: efishery-auth
+    container_name: auth
+    ports: 
+        - "5000:5000"
+    restart: unless-stopped
+  fetch:
+    build: app/fetch/
+    image: efishery-fetch
+    container_name: fetch
+    ports:
+        - "8000:8000"
+    restart: unless-stopped
