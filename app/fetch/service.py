@@ -63,7 +63,7 @@ class Service():
         # Process data using pandas DataFrame. Group by tgl_parsed weekly starting monday and area_provinsi. Aggregate size and price column
         df = pd.DataFrame(data)
         df['tgl_parsed'] = pd.to_datetime(df['tgl_parsed'])
-        df = df.groupby([pd.Grouper(key='tgl_parsed', freq='W-MON'), 'area_provinsi']).agg(
+        df = df.groupby([pd.Grouper(key='tgl_parsed', freq='W-SUN'), 'area_provinsi']).agg(
             min_size=('size', 'min'),
             max_size=('size', 'max'),
             med_size=('size', 'median'),
@@ -80,7 +80,7 @@ class Service():
         for k, v in df_dict.items():
             tgl_parsed = k[0].strftime('%Y-%m-%d')
             area = k[1]
-            v['start_week'] = tgl_parsed
+            v['end_week'] = tgl_parsed
             v['area_provinsi'] = area
             df_dict_parsed.append(v)
         result = {'result': df_dict_parsed}

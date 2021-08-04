@@ -14,7 +14,7 @@ class Comodity(BaseModel):
     usd_idr_rate: float
 
 class Aggregate(BaseModel):
-    start_week: str
+    end_week: str
     area_provinsi: str
     min_size: int
     max_size: int
