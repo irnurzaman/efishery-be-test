@@ -59,14 +59,9 @@ class Service():
         self.comodity_cache = result
         return result
 
-    async def aggregate(self) -> dict:
-        async with self.client.get(self.resource_addr) as resp:
-            body = await resp.json()
-        post_filter = self.filtering(body)
-        self.preprocessing(post_filter)
-        
+    def aggregating(self, data: List[Dict]) -> dict :
         # Process data using pandas DataFrame. Group by tgl_parsed weekly starting monday and area_provinsi. Aggregate size and price column
-        df = pd.DataFrame(post_filter)
+        df = pd.DataFrame(data)
         df['tgl_parsed'] = pd.to_datetime(df['tgl_parsed'])
         df = df.groupby([pd.Grouper(key='tgl_parsed', freq='W-MON'), 'area_provinsi']).agg(
             min_size=('size', 'min'),
@@ -90,4 +85,13 @@ class Service():
             df_dict_parsed.append(v)
         result = {'result': df_dict_parsed}
         self.aggregate_cache = result
+        return result
+        
+
+    async def aggregate(self) -> dict:
+        async with self.client.get(self.resource_addr) as resp:
+            body = await resp.json()
+        post_filter = self.filtering(body)
+        self.preprocessing(post_filter)
+        result = self.aggregating(post_filter)
         return result
