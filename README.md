@@ -84,6 +84,7 @@ app
 - Ubuntu 20.04 (WSL2)
 - go version go1.15.4 linux/amd64
 - python 3.8.5 (venv activated)
+- sqlite3
 
 ### Steps
 1. Clone git repository
@@ -119,3 +120,9 @@ The output will be binary file named `auth`. Run `./auth --secret <secret> --ser
 uvicorn main:app
 ```
  The services will be running on `http://localhost:8000`
+
+ ## C4 Model
+ ### System Context Diagram
+ ![system context diagram](https://github.com/irnurzaman/efishery-be-test/blob/documentation/assets/system-context-diagram.png?raw=true)
+ ### Deployment Diagram
+ ![deployment diagram](https://github.com/irnurzaman/efishery-be-test/blob/documentation/assets/deployment-diagram.png?raw=true)
