@@ -82,6 +82,8 @@ app
 Fetch services directory structure
 ```
 app
+├── test
+│   └── test_service.py --> Test script using pytest
 ├── Dockerfile
 ├── main.py --> REST API and entry point
 ├── models.py --> Request and response library
