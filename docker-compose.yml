@@ -5,12 +5,16 @@ services:
     image: efishery-auth
     container_name: auth
     ports: 
-        - "5000:5000"
+        - "${AUTH_PORT}:${AUTH_PORT}"
+    env_file: 
+      - .env
     restart: unless-stopped
   fetch:
     build: app/fetch/
     image: efishery-fetch
     container_name: fetch
     ports:
-        - "8000:8000"
+        - "${FETCH_PORT}:${FETCH_PORT}"
+    env_file: 
+      - .env
     restart: unless-stopped
