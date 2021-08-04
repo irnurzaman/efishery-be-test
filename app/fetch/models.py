@@ -7,11 +7,11 @@ class Comodity(BaseModel):
     area_provinsi: str
     area_kota: str
     size: int
-    price: int
+    price: float
     tgl_parsed: str
     timestamp: str
-    usd_price: int
-    idr_usd_rate: float
+    usd_price: float
+    usd_idr_rate: float
 
 class Aggregate(BaseModel):
     start_week: str
@@ -20,10 +20,10 @@ class Aggregate(BaseModel):
     max_size: int
     med_size: float
     mean_size: float
-    min_price: int
-    max_size: int
-    med_size: float
-    mean_size: float
+    min_price: float
+    max_price: float
+    med_price: float
+    mean_price: float
 
 class RespComodity(BaseModel):
     result: List[Comodity]

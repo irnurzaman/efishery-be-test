@@ -52,8 +52,8 @@ class Service():
         post_filter = self.filtering(body)
 
         for data in post_filter:
-            data['usd_price'] = self.rate * data['price']
-            data['idr_usd_rate'] = self.rate
+            data['usd_price'] = data['price'] /self.rate
+            data['usd_idr_rate'] = self.rate
         result = {'result': post_filter}
         self.last_request = time.time()
         self.comodity_cache = result
