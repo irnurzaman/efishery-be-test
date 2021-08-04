@@ -24,6 +24,12 @@ type Service struct {
 func (s *Service) RegisterUser(req models.ReqRegisterUser) (pwd string, err error) {
 	pwd = generatePassword()
 	var user entities.User
+
+	if req.Name == "" || req.Phone == "" || req.Role == "" {
+		err = fmt.Errorf("Name, phone, and role can't be empty")
+		return
+	}
+
 	copier.Copy(&user, req)
 	user.Password = pwd
 	err = s.repo.CreateUser(user)
