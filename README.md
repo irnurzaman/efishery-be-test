@@ -1,13 +1,23 @@
 # eFishery BackEnd Skill Test
 This repository contains 2 services. Auth services for users registration and authentication. Fetch services for fetching and aggregating data from 3rd API.
 
+## Deployed Host
+- Auth Service address : http://116.193.190.7:5000/
+- Fetch Service address : http://116.193.190.7:8000/
+
 ## Usage
 1. Go to root directory
 2. In the root directory, run services with:
 ```sh
-docker compose up
+docker compose up #for Docker compose v2
+```
+or
+```sh
+docker-compose up #for Docker compose v1
 ```
 3. Auth service will be listening on port 5000 and fetch service will be listening on port 8000
+
+You can change the configuration by changing the `.env` file in the root directory
 
 ## Getting Started
 Auth service consist of 3 API:
